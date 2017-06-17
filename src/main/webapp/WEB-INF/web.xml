@@ -1,0 +1,41 @@
+<web-app  
+        version="3.0"  
+        xmlns="http://java.sun.com/xml/ns/javaee"  
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" metadata-complete="true">  
+	<!-- 如果是用mvn命令生成的xml，需要修改servlet版本为3.1 -->
+	<!-- 配置DispatcherServlet -->
+	
+	<welcome-file-list> 
+    <welcome-file>Login.jsp</welcome-file> 
+    </welcome-file-list> 
+	<servlet>
+		<servlet-name>mvc-dispatcher</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<!-- 配置springMVC需要加载的配置文件
+			spring-dao.xml,spring-service.xml,spring-web.xml
+			Mybatis - > spring -> springmvc
+		 -->
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:spring/spring-*.xml</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>mvc-dispatcher</servlet-name>
+		<!-- 默认匹配所有的请求 -->
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	<error-page>  
+    <exception-type>java.lang.Throwable</exception-type>  
+    <location>/Error.jsp</location>  
+    </error-page>  
+	<error-page>
+	   <error-code>404</error-code>
+       <location>/WEB-INF/jsp/error/404.jsp</location>
+	</error-page>
+	<error-page>
+       <error-code>500</error-code>
+       <location>/WEB-INF/jsp/error/500.jsp</location>
+    </error-page>
+</web-app>

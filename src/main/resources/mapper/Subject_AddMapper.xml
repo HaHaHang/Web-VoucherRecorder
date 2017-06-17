@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hang.core.dao.Subject_AddMapper">
+    <resultMap type="com.hang.core.entity.Subject_Add" id="BaseResultMap">
+        <result column="subjectid" property="subjectid" jdbcType="INTEGER" />
+        <result column="subjectname" property="subjectname" jdbcType="VARCHAR" />
+        <result column="subcatid" property="subcatid" jdbcType="TINYINT" />
+        <result column="isload" property="isload" jdbcType="BIT" />
+        <result column="userId" property="userid" jdbcType="SMALLINT" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        subjectid, subjectname, subcatid, isload
+    </sql>
+    
+    <insert id="saveCustomSubject" parameterType="com.hang.core.entity.Subject_Add">
+        INSERT INTO v_subject_add VALUE (#{subjectid},#{subjectname},#{subcatid},#{isload},#{userid})
+    </insert>
+    
+    <delete id="deleteCustomSubject" parameterType="com.hang.core.entity.Subject_Add">
+        DELETE FROM v_subject_add WHERE subjectid = #{subjectid} AND userId = #{userid}
+    </delete>
+    
+    <select id="listCustomSubjectByUserId" parameterType="java.lang.Short" resultType="com.hang.core.entity.Subject_Add">
+         SELECT  * FROM v_subject_add AS a RIGHT JOIN v_subject_cate AS b ON a.`subcatid` = b.`subcatid`  WHERE userId = #{value}
+    </select>
+    
+    <select id="countSubjAddByUserIdAndSubjId" parameterType="com.hang.core.entity.Subject_Add" 
+    resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM v_subject_add WHERE subjectid = #{subjectid} AND userId = #{userid} 
+    </select>
+    
+    <select id="listSubjectCategory" resultType="com.hang.core.entity.Subject_Cate">
+        SELECT * FROM v_subject_cate 
+    </select>
+</mapper>

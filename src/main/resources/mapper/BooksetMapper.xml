@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hang.core.dao.BooksetMapper" >
+  <resultMap id="BaseResultMap" type="com.hang.core.entity.Bookset" >
+    <id column="booksetId" property="booksetid" jdbcType="SMALLINT" />
+    <result column="userId" property="userid" jdbcType="SMALLINT" />
+    <result column="compName" property="compname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    booksetId, userId, compName
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Short" >
+    select 
+    <include refid="Base_Column_List" />
+    from v_bookset
+    where booksetId = #{booksetid,jdbcType=SMALLINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Short" >
+    delete from v_bookset
+    where booksetId = #{booksetid,jdbcType=SMALLINT}
+  </delete>
+  <insert id="insert" parameterType="com.hang.core.entity.Bookset" >
+    insert into v_bookset (booksetId, userId, compName
+      )
+    values (#{booksetid,jdbcType=SMALLINT}, #{userid,jdbcType=SMALLINT}, #{compname,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hang.core.entity.Bookset">
+    insert into v_bookset
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="booksetid != null" >
+        booksetId,
+      </if>
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="compname != null" >
+        compName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="booksetid != null" >
+        #{booksetid,jdbcType=SMALLINT},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=SMALLINT},
+      </if>
+      <if test="compname != null" >
+        #{compname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hang.core.entity.Bookset" >
+    update v_bookset
+    <set >
+      <if test="userid != null" >
+        userId = #{userid,jdbcType=SMALLINT},
+      </if>
+      <if test="compname != null" >
+        compName = #{compname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where booksetId = #{booksetid,jdbcType=SMALLINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hang.core.entity.Bookset" >
+    update v_bookset
+    set userId = #{userid,jdbcType=SMALLINT},
+      compName = #{compname,jdbcType=VARCHAR}
+    where booksetId = #{booksetid,jdbcType=SMALLINT}
+  </update>
+  
+
+  <select id="listBooksetByUserId" parameterType="java.lang.Short"
+     resultType="com.hang.core.entity.Bookset">
+     SELECT * FROM v_bookset WHERE userId = #{value}
+  </select>
+  
+  <select id="getBooksetByUserIdAndCompName" parameterType="com.hang.core.entity.Bookset"
+   resultType="com.hang.core.entity.Bookset">
+  	SELECT	* FROM v_bookset WHERE
+  	userId = #{userid}  AND compName = #{compname}
+  </select>
+</mapper>

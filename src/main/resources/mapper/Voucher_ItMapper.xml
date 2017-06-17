@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hang.core.dao.Voucher_ItMapper">
+  <resultMap id="BaseResultMap" type="com.hang.core.entity.Voucher_It">
+    <result column="voucherId" jdbcType="SMALLINT" property="voucherid" />
+    <result column="subjectid" jdbcType="INTEGER" property="subjectid" />
+    <result column="isload" jdbcType="BIT" property="isload" />
+    <result column="money" jdbcType="DOUBLE" property="money" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+  </resultMap>
+  <insert id="insert" parameterType="com.hang.core.entity.Voucher_It">
+    insert into v_voucher_it (voucherId, subjectid, isload, 
+      money, note)
+    values (#{voucherid,jdbcType=SMALLINT}, #{subjectid,jdbcType=INTEGER}, #{isload,jdbcType=BIT}, 
+      #{money,jdbcType=DOUBLE}, #{note,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hang.core.entity.Voucher_It">
+    insert into v_voucher_it
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="voucherid != null">
+        voucherId,
+      </if>
+      <if test="subjectid != null">
+        subjectid,
+      </if>
+      <if test="isload != null">
+        isload,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+      <if test="note != null">
+        note,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="voucherid != null">
+        #{voucherid,jdbcType=SMALLINT},
+      </if>
+      <if test="subjectid != null">
+        #{subjectid,jdbcType=INTEGER},
+      </if>
+      <if test="isload != null">
+        #{isload,jdbcType=BIT},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="note != null">
+        #{note,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+ 
+ 
+  
+  <!-- Custom:Function -->
+  <select id="listVoucherItemByVoucherId" parameterType="java.lang.Short" resultType="com.hang.core.entity.Voucher_It">
+  		SELECT * FROM v_voucher_it WHERE voucherId = #{value}
+  </select>
+  
+  <select id="listVoucherItPlusByVoucherId" parameterType="com.hang.core.entity.Voucher" resultType="com.hang.core.pojo.Voucher_It_Plus">
+   		SELECT 
+		  a.*,
+		  b.subjectname 
+		FROM
+		  v_voucher_it AS a 
+		  RIGHT 
+		  OUTER JOIN v_subject AS b 
+		    ON a.`subjectid` = b.`subjectid` 
+		WHERE a.`voucherId` = #{voucherid}
+		UNION
+		SELECT 
+		  c.*,
+		  d.subjectname 
+		FROM
+		  v_voucher_it AS c 
+		  RIGHT OUTER JOIN v_subject_add AS d 
+		    ON c.`subjectid` = d.`subjectid` 
+		WHERE c.`voucherId` = #{voucherid}
+  </select>
+  
+  <delete id="deletVoucherItem" parameterType="java.lang.Short">
+  		DELETE FROM v_voucher_it WHERE voucherId = #{value}
+  </delete>
+</mapper>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hang.core.dao.VoucherMapper">
+  <resultMap id="BaseResultMap" type="com.hang.core.entity.Voucher">
+    <id column="booksetId" jdbcType="SMALLINT" property="booksetid" />
+    <id column="itemId" jdbcType="TINYINT" property="itemid" />
+    <id column="accountPeriod" jdbcType="VARCHAR" property="accountperiod" />
+    <result column="voucherId" jdbcType="SMALLINT" property="voucherid" />
+    <result column="date" jdbcType="DATE" property="date" />
+    <result column="doc_num" jdbcType="TINYINT" property="docNum" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    booksetId, itemId, accountPeriod, voucherId, date, doc_num
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="com.hang.core.entity.VoucherKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from v_voucher
+    where booksetId = #{booksetid,jdbcType=SMALLINT}
+      and itemId = #{itemid,jdbcType=TINYINT}
+      and accountPeriod = #{accountperiod,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.hang.core.entity.VoucherKey">
+    delete from v_voucher
+    where booksetId = #{booksetid,jdbcType=SMALLINT}
+      and itemId = #{itemid,jdbcType=TINYINT}
+      and accountPeriod = #{accountperiod,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hang.core.entity.Voucher">
+    insert into v_voucher (booksetId, itemId, accountPeriod, 
+      voucherId, date, doc_num
+      )
+    values (#{booksetid,jdbcType=SMALLINT}, #{itemid,jdbcType=TINYINT}, #{accountperiod,jdbcType=VARCHAR}, 
+      #{voucherid,jdbcType=SMALLINT}, #{date,jdbcType=DATE}, #{docNum,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hang.core.entity.Voucher">
+    insert into v_voucher
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="booksetid != null">
+        booksetId,
+      </if>
+      <if test="itemid != null">
+        itemId,
+      </if>
+      <if test="accountperiod != null">
+        accountPeriod,
+      </if>
+      <if test="voucherid != null">
+        voucherId,
+      </if>
+      <if test="date != null">
+        date,
+      </if>
+      <if test="docNum != null">
+        doc_num,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="booksetid != null">
+        #{booksetid,jdbcType=SMALLINT},
+      </if>
+      <if test="itemid != null">
+        #{itemid,jdbcType=TINYINT},
+      </if>
+      <if test="accountperiod != null">
+        #{accountperiod,jdbcType=VARCHAR},
+      </if>
+      <if test="voucherid != null">
+        #{voucherid,jdbcType=SMALLINT},
+      </if>
+      <if test="date != null">
+        #{date,jdbcType=DATE},
+      </if>
+      <if test="docNum != null">
+        #{docNum,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hang.core.entity.Voucher">
+    update v_voucher
+    <set>
+      <if test="voucherid != null">
+        voucherId = #{voucherid,jdbcType=SMALLINT},
+      </if>
+      <if test="date != null">
+        date = #{date,jdbcType=DATE},
+      </if>
+      <if test="docNum != null">
+        doc_num = #{docNum,jdbcType=TINYINT},
+      </if>
+    </set>
+    where booksetId = #{booksetid,jdbcType=SMALLINT}
+      and itemId = #{itemid,jdbcType=TINYINT}
+      and accountPeriod = #{accountperiod,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hang.core.entity.Voucher">
+    update v_voucher
+    set voucherId = #{voucherid,jdbcType=SMALLINT},
+      date = #{date,jdbcType=DATE},
+      doc_num = #{docNum,jdbcType=TINYINT}
+    where booksetId = #{booksetid,jdbcType=SMALLINT}
+      and itemId = #{itemid,jdbcType=TINYINT}
+      and accountPeriod = #{accountperiod,jdbcType=VARCHAR}
+  </update>
+ 
+ 
+  
+  <!-- 自定义 -->
+  <!-- selectVoucherByKey -->
+  <select id="listVoucherByKey" parameterType="com.hang.core.entity.VoucherKey" resultType="com.hang.core.entity.Voucher">
+ 	SELECT * FROM v_voucher 
+	<where>
+	booksetId = #{booksetid} AND accountPeriod = #{accountperiod}</where>
+  </select>
+  
+  <select id="getVoucherIdByVoucher" parameterType="com.hang.core.entity.Voucher" resultType="java.lang.Short">
+  	SELECT voucherId FROM v_voucher
+	<where> booksetId = #{booksetid} AND accountPeriod = #{accountperiod} AND itemId = #{itemid}
+  	</where>
+  </select>
+  
+  <select id="listAccountPeriodByBooksetId" parameterType="java.lang.Short" resultType="com.hang.core.entity.VoucherKey">
+  		SELECT DISTINCT accountPeriod,booksetId FROM v_voucher AS a  WHERE booksetId = #{value} ORDER BY accountPeriod DESC
+  </select>
+  
+  <select id="getMAXValueOfItemId" parameterType="com.hang.core.entity.VoucherKey" resultType="java.lang.Integer">
+  		SELECT MAX(v_voucher.`itemId`)  FROM v_voucher WHERE booksetId = #{booksetid} AND accountPeriod = #{accountperiod}
+  </select>
+  
+  <!-- update voucher summary -->
+  <select id="listSubjectIdByVoucherKeyPlus" parameterType="com.hang.core.pojo.VoucherKeyPlus" resultType="java.lang.Integer">
+        SELECT 
+		 DISTINCT b.subjectid 
+		FROM
+		  v_voucher AS a 
+		  RIGHT JOIN v_voucher_it AS b 
+		    ON a.`voucherId` = b.`voucherId` 
+		WHERE booksetId = #{booksetid} AND accountPeriod = #{accountperiod} 
+  </select>
+   
+   <select id="listVoucherSummaryItem" parameterType="com.hang.core.pojo.VoucherKeyPlus"
+         resultType="com.hang.core.pojo.VoucherSummaryIt">
+        SELECT 
+		  b.`date`,b.`itemId`,a.`note`,a.`isload`,a.`money` 
+		FROM
+		  v_voucher_it AS a RIGHT JOIN v_voucher AS b 
+		    ON a.`voucherId` = b.`voucherId` 
+		WHERE b.booksetId = #{booksetid} AND b.accountPeriod = #{accountperiod} AND a.`subjectid` = #{subjectid}
+   </select>
+   
+</mapper>

@@ -1,0 +1,117 @@
+@CHARSET "UTF-8";
+body{
+	margin:2px 10px ;
+	padding: 2px 10px;
+	background: #cccccc;
+}
+.navbarright {
+	float:right;
+}
+#one > form{
+	   text-align: center;
+}
+.row {
+	margin:0px
+}
+.div_left {
+	text-align: center;
+	width:10%;
+	padding: 0px 6px 0px 0px;
+}
+.left-list-1 {
+	padding: 5px 2px 5px 2px;
+}
+.div_right {
+	width:90%;
+	padding:  0px 0px 0px 6px;
+}
+.tab-content{
+	min-height: 400px;
+}
+.td_note {
+	width:25%;
+}
+.td_subject {
+	width:41%;
+}
+.select2 {
+	width:440px;
+}
+.td_debit, .td_credit {
+	width:17%;
+}
+.navbar{
+	margin-bottom:12px;
+}
+.voucherheader{
+	width:100%;
+}
+.t_select {
+	font-size:13px;
+	text-align:left;
+	left:100px;
+	height: 30px;
+	width: 50px;
+}
+#queryVoucherTable * {
+    text-align: center ;
+}
+
+#queryVoucherTable tr > td > button, #CustomSubjectTable tr > td > button{
+    margin: -8px 0px;
+}
+
+#aflower{
+	position: absolute;
+	top: 520px;
+}
+
+.table th, .table td { 
+    text-align: center;
+    vertical-align: middle!important;
+}
+#nowbookset {
+	text-align: center;
+}
+.spinner {  
+    width: 100px;  
+}  
+.spinner input {  
+    text-align: right;  
+}  
+.input-group-btn-vertical {  
+  position: relative;  
+  white-space: nowrap;  
+  width: 1%;  
+  vertical-align: middle;  
+  display: table-cell;  
+}  
+.input-group-btn-vertical > .btn {  
+  display: block;  
+  float: none;  
+  width: 100%;  
+  max-width: 100%;  
+  padding: 8px;  
+  margin-left: -1px;  
+  position: relative;  
+  border-radius: 0;  
+}  
+.input-group-btn-vertical > .btn:first-child {  
+}  
+.input-group-btn-vertical > .btn:last-child {  
+  margin-top: -2px;  
+
+}
+.input-group-btn-vertical i{  
+  position: absolute;  
+  top: -2px;  
+  left: 1.5px;  
+}
+
+td.details-control {
+    background: url('../images/details_open.png') no-repeat center center;
+    cursor: pointer;
+}
+tr.shown td.details-control {
+    background: url('../images/details_close.png') no-repeat center center;
+}
